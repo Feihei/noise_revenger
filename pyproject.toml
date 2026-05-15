@@ -1,0 +1,22 @@
+[project]
+name = "noise-revenger"
+version = "0.1.0"
+description = "Real-time noise feedback system - detects upstairs noise and plays alert sounds"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.4.4",
+    "pygame>=2.6.1",
+    "pyyaml>=6.0.3",
+    "scipy>=1.17.1",
+    "sounddevice>=0.5.5",
+]
+
+[[tool.uv.index]]
+url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"
+default = true
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+]

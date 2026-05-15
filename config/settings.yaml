@@ -1,0 +1,37 @@
+audio:
+  sample_rate: 44100
+  chunk_size: 1024
+  channels: 1
+  input_device_index: null
+
+detection:
+  low_freq:
+    enabled: true
+    freq_range: [20, 250]
+    energy_threshold: 3.0
+    spectral_centroid_max: 500.0
+    window_size: 0.1
+
+  high_freq:
+    enabled: true
+    freq_range: [2000, 8000]
+    energy_threshold: 2.5
+    zero_crossing_min: 0.3
+    window_size: 0.05
+
+  cooldown_seconds: 5.0
+  background_learning_seconds: 10.0
+
+feedback:
+  enabled: true
+  output_device_index: null
+  sounds:
+    mild: "sounds/alert_mild.wav"
+    medium: "sounds/alert_medium.wav"
+    strong: "sounds/alert_strong.wav"
+  volume: 1.0
+
+logging:
+  level: "INFO"
+  save_audio_clips: false
+  clips_dir: "logs/clips"
