@@ -4,6 +4,7 @@ import sys
 import time
 import signal
 import logging
+import argparse
 import numpy as np
 from pathlib import Path
 
@@ -14,6 +15,7 @@ from src.audio_capture import AudioCapture
 from src.noise_detector.engine import NoiseDetector
 from src.feedback_player import FeedbackPlayer
 from src.logger import setup_logging, EventLogger
+from src.gui import NoiseRevengerGUI
 
 logger = logging.getLogger(__name__)
 
@@ -120,10 +122,31 @@ class NoiseRevenger:
         logger.info("Noise Revenger stopped")
 
 
-def main():
-    config = load_config()
+def run_cli(config: AppConfig):
     app = NoiseRevenger(config)
     app.run()
+
+
+def run_gui(config: AppConfig):
+    gui = NoiseRevengerGUI(config)
+    gui.run()
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Noise Revenger - Real-time noise feedback system")
+    parser.add_argument(
+        "--gui",
+        action="store_true",
+        help="Launch with graphical user interface",
+    )
+    args = parser.parse_args()
+
+    config = load_config()
+
+    if args.gui:
+        run_gui(config)
+    else:
+        run_cli(config)
 
 
 if __name__ == "__main__":
