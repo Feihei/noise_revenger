@@ -12,6 +12,7 @@ from .audio_capture import AudioCapture
 from .noise_detector.engine import NoiseDetector
 from .feedback_player import FeedbackPlayer
 from .logger import EventLogger
+from .paths import get_logs_dir
 
 logger = logging.getLogger(__name__)
 
@@ -431,7 +432,7 @@ class NoiseRevengerGUI:
                 volume=self.config.feedback.volume,
             )
 
-            self.event_logger = EventLogger(log_dir="logs")
+            self.event_logger = EventLogger(log_dir=str(get_logs_dir()))
 
             self._stop_event.clear()
             self._monitor_thread = threading.Thread(

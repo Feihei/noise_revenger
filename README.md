@@ -83,10 +83,13 @@ uv run python generate_sounds.py
 
 项目提供两种运行模式：图形界面（GUI）模式和命令行（CLI）模式。
 
-#### GUI 模式（推荐）
+#### GUI 模式（推荐，默认）
 
 ```bash
-uv run python main.py --gui
+# 开发环境
+uv run python main.py
+
+# 打包后：双击 NoiseRevenger.exe 即可
 ```
 
 启动后界面包含以下区域：
@@ -101,7 +104,7 @@ uv run python main.py --gui
 #### CLI 模式
 
 ```bash
-uv run python main.py
+uv run python main.py --cli
 ```
 
 命令行模式无界面，适合后台运行或调试。
@@ -163,16 +166,16 @@ uv run python main.py --gui
 
 | 参数 | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
-| `--gui` | 布尔标志 | `false` | 启动图形用户界面。不带此参数则以命令行模式运行 |
+| `--cli` | 布尔标志 | `false` | 以命令行模式运行（无 GUI）。不带此参数默认启动 GUI 界面 |
 
 **示例：**
 
 ```bash
-# 命令行模式
+# GUI 模式（默认）
 python main.py
 
-# GUI 模式
-python main.py --gui
+# 命令行模式
+python main.py --cli
 ```
 
 ### 配置文件参数

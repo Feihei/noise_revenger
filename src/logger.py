@@ -8,6 +8,7 @@ from datetime import datetime
 from typing import Optional
 
 from .noise_detector.engine import NoiseEvent
+from .paths import get_logs_dir
 
 
 def setup_logging(level: str = "INFO", log_file: Optional[str] = None) -> logging.Logger:
@@ -33,8 +34,11 @@ def setup_logging(level: str = "INFO", log_file: Optional[str] = None) -> loggin
 
 
 class EventLogger:
-    def __init__(self, log_dir: str = "logs"):
-        self.log_dir = Path(log_dir)
+    def __init__(self, log_dir: str = ""):
+        if log_dir:
+            self.log_dir = Path(log_dir)
+        else:
+            self.log_dir = get_logs_dir()
         self.log_dir.mkdir(parents=True, exist_ok=True)
         self._events_file = self.log_dir / "noise_events.jsonl"
         self._daily_file = self._get_daily_csv_path()

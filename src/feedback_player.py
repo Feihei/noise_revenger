@@ -2,9 +2,10 @@
 
 import pygame
 import logging
-import os
 from pathlib import Path
 from typing import Optional
+
+from .paths import get_sounds_path
 
 logger = logging.getLogger(__name__)
 
@@ -25,21 +26,24 @@ class FeedbackPlayer:
     def play(self, intensity: str) -> bool:
         self._init_mixer()
 
-        sound_path = self.sounds.get(intensity)
-        if sound_path is None:
+        sound_path_str = self.sounds.get(intensity)
+        if sound_path_str is None:
             logger.warning(f"No sound configured for intensity: {intensity}")
             return False
 
-        path = Path(sound_path)
+        path = Path(sound_path_str)
+        if not path.is_absolute():
+            path = get_sounds_path(path.name)
+
         if not path.exists():
-            logger.warning(f"Sound file not found: {sound_path}")
+            logger.warning(f"Sound file not found: {path}")
             return False
 
         try:
             sound = pygame.mixer.Sound(str(path))
             sound.set_volume(self.volume)
             sound.play()
-            logger.info(f"Playing alert sound: {sound_path} (intensity={intensity})")
+            logger.info(f"Playing alert sound: {path} (intensity={intensity})")
             return True
         except Exception as e:
             logger.error(f"Failed to play sound: {e}")

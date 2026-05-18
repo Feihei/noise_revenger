@@ -16,6 +16,7 @@ from src.noise_detector.engine import NoiseDetector
 from src.feedback_player import FeedbackPlayer
 from src.logger import setup_logging, EventLogger
 from src.gui import NoiseRevengerGUI
+from src.paths import get_logs_dir
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +28,7 @@ class NoiseRevenger:
 
         setup_logging(
             level=config.logging.level,
-            log_file="logs/noise_revenger.log"
+            log_file=str(get_logs_dir() / "noise_revenger.log")
         )
 
         self.capture = AudioCapture(
@@ -64,7 +65,7 @@ class NoiseRevenger:
             volume=config.feedback.volume,
         )
 
-        self.event_logger = EventLogger(log_dir="logs")
+        self.event_logger = EventLogger(log_dir=str(get_logs_dir()))
 
     def _learn_background(self, duration: float):
         logger.info(f"Learning background noise for {duration} seconds...")
@@ -139,14 +140,19 @@ def main():
         action="store_true",
         help="Launch with graphical user interface",
     )
+    parser.add_argument(
+        "--cli",
+        action="store_true",
+        help="Launch in command-line mode (no GUI)",
+    )
     args = parser.parse_args()
 
     config = load_config()
 
-    if args.gui:
-        run_gui(config)
-    else:
+    if args.cli:
         run_cli(config)
+    else:
+        run_gui(config)
 
 
 if __name__ == "__main__":

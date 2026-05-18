@@ -5,6 +5,8 @@ from pathlib import Path
 from dataclasses import dataclass, field, asdict
 from typing import Optional
 
+from .paths import get_config_path
+
 
 @dataclass
 class LowFreqConfig:
@@ -65,12 +67,9 @@ class AppConfig:
     logging: LoggingConfig = field(default_factory=LoggingConfig)
 
 
-DEFAULT_CONFIG_PATH = Path("config/settings.yaml")
-
-
 def load_config(config_path: Optional[Path] = None) -> AppConfig:
     if config_path is None:
-        config_path = DEFAULT_CONFIG_PATH
+        config_path = get_config_path()
 
     if config_path.exists():
         with open(config_path, "r", encoding="utf-8") as f:
@@ -81,7 +80,7 @@ def load_config(config_path: Optional[Path] = None) -> AppConfig:
 
 def save_config(config: AppConfig, config_path: Optional[Path] = None) -> None:
     if config_path is None:
-        config_path = DEFAULT_CONFIG_PATH
+        config_path = get_config_path()
 
     config_path.parent.mkdir(parents=True, exist_ok=True)
     data = _config_to_dict(config)
