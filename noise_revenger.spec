@@ -2,7 +2,7 @@
 """PyInstaller spec file for Noise Revenger.
 
 Usage:
-    pyinstaller noise_revenger.spec
+    uv run pyinstaller noise_revenger.spec
 
 This spec file creates a single-directory distribution with:
 - NoiseRevenger.exe (the main executable)
@@ -50,6 +50,8 @@ a = Analysis(
 
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 
+version_file = Path('version_info.txt').resolve()
+
 exe = EXE(
     pyz,
     a.scripts,
@@ -67,6 +69,7 @@ exe = EXE(
     codesign_identity=None,
     entitlements_file=None,
     icon=None,
+    version=str(version_file) if version_file.exists() else None,
 )
 
 coll = COLLECT(

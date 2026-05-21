@@ -180,7 +180,7 @@ class NoiseRevengerGUI:
         self.low_threshold_label.pack(side=tk.LEFT)
 
         high_frame = ttk.Frame(section)
-        high_frame.pack(fill=tk.X)
+        high_frame.pack(fill=tk.X, pady=(0, 10))
 
         ttk.Label(high_frame, text="高频阈值:", width=10, anchor=tk.W).pack(side=tk.LEFT)
         self.high_threshold_var = tk.DoubleVar(value=self.config.detection.high_freq.energy_threshold)
@@ -202,6 +202,30 @@ class NoiseRevengerGUI:
             font=("Microsoft YaHei UI", 9, "bold"),
         )
         self.high_threshold_label.pack(side=tk.LEFT)
+
+        delay_frame = ttk.Frame(section)
+        delay_frame.pack(fill=tk.X)
+
+        ttk.Label(delay_frame, text="警报延迟时间:", width=12, anchor=tk.W).pack(side=tk.LEFT)
+        self.delay_var = tk.IntVar(value=self.config.feedback.delay)
+        self.delay_slider = ttk.Scale(
+            delay_frame,
+            from_=0,
+            to=5000,
+            variable=self.delay_var,
+            orient=tk.HORIZONTAL,
+            command=self._on_delay_change,
+        )
+        self.delay_slider.pack(side=tk.LEFT, padx=(5, 5), fill=tk.X, expand=True)
+
+        self.delay_label = ttk.Label(
+            delay_frame,
+            text=f"{self.delay_var.get()} ms",
+            width=8,
+            anchor=tk.E,
+            font=("Microsoft YaHei UI", 9, "bold"),
+        )
+        self.delay_label.pack(side=tk.LEFT)
 
     def _build_control_section(self, parent):
         control_frame = ttk.Frame(parent)
@@ -387,6 +411,12 @@ class NoiseRevengerGUI:
         self.config.detection.high_freq.energy_threshold = val
         self._set_bar_status(f"高频阈值已更新: {val:.1f}")
 
+    def _on_delay_change(self, value=None):
+        val = int(self.delay_var.get())
+        self.delay_label.config(text=f"{val} ms")
+        self.config.feedback.delay = val
+        self._set_bar_status(f"警报延迟时间已更新: {val} ms")
+
     def _toggle_monitoring(self):
         if self._running:
             self._stop_monitoring()
@@ -524,7 +554,11 @@ class NoiseRevengerGUI:
                 if event is not None:
                     self.event_logger.log_event(event)
                     if self.config.feedback.enabled:
-                        self.player.play(event.intensity.value)
+                        delay_ms = self.config.feedback.delay
+                        if delay_ms > 0:
+                            self.root.after(delay_ms, lambda i=event.intensity.value: self.player.play(i))
+                        else:
+                            self.player.play(event.intensity.value)
                     self.root.after(0, lambda e=event: self._add_log_entry(e))
 
         except Exception as e:

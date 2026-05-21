@@ -30,6 +30,9 @@ feedback:
     medium: "sounds/alert_medium.wav"
     strong: "sounds/alert_strong.wav"
   volume: 1.0
+  # 警报延迟时间（毫秒）：检测到噪音后等待指定时间再播放警报音
+  # 用于防止原始噪音与警报音发生音频叠加，范围 0-5000 毫秒（0 表示无延迟）
+  delay: 2000
 
 logging:
   level: "INFO"

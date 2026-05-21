@@ -1,0 +1,17 @@
+timestamp,noise_type,intensity,confidence
+2026-05-21T17:28:50.510512,low_freq_impact,strong,1.0
+2026-05-21T17:28:59.010946,low_freq_impact,strong,1.0
+2026-05-21T17:29:05.561138,low_freq_impact,strong,1.0
+2026-05-21T17:29:12.710429,low_freq_impact,strong,0.7202
+2026-05-21T17:29:22.040417,low_freq_impact,strong,1.0
+2026-05-21T17:29:30.030792,low_freq_impact,strong,1.0
+2026-05-21T17:29:36.860491,low_freq_impact,strong,1.0
+2026-05-21T17:29:41.920264,low_freq_impact,medium,0.6288
+2026-05-21T17:29:48.050775,low_freq_impact,strong,0.8579
+2026-05-21T17:29:53.300903,low_freq_impact,medium,0.5068
+2026-05-21T17:29:59.150723,low_freq_impact,strong,1.0
+2026-05-21T17:30:07.370804,low_freq_impact,medium,0.5086
+2026-05-21T17:30:12.520677,low_freq_impact,medium,0.5348
+2026-05-21T17:30:17.580764,low_freq_impact,medium,0.5107
+2026-05-21T17:42:10.218307,low_freq_impact,strong,1.0
+2026-05-21T17:42:16.158103,low_freq_impact,strong,1.0

@@ -81,6 +81,9 @@ class NoiseRevenger:
     def _handle_noise_event(self, event):
         self.event_logger.log_event(event)
         if self.config.feedback.enabled:
+            delay_ms = self.config.feedback.delay
+            if delay_ms > 0:
+                time.sleep(delay_ms / 1000.0)
             self.player.play(event.intensity.value)
 
     def run(self):

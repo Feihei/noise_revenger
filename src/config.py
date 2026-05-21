@@ -47,6 +47,7 @@ class FeedbackConfig:
     output_device_index: Optional[int] = None
     sounds: FeedbackSounds = field(default_factory=FeedbackSounds)
     volume: float = 1.0
+    delay: int = 2000
 
 
 @dataclass
@@ -134,6 +135,7 @@ def _dict_to_config(data: dict) -> AppConfig:
                 strong=sounds_data.get("strong", "sounds/alert_strong.wav"),
             ),
             volume=feedback_data.get("volume", 1.0),
+            delay=feedback_data.get("delay", 2000),
         ),
         logging=LoggingConfig(
             level=logging_data.get("level", "INFO"),
@@ -178,6 +180,7 @@ def _config_to_dict(config: AppConfig) -> dict:
                 "strong": config.feedback.sounds.strong,
             },
             "volume": config.feedback.volume,
+            "delay": config.feedback.delay,
         },
         "logging": {
             "level": config.logging.level,
